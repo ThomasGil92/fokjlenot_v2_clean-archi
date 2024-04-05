@@ -1,4 +1,6 @@
-```src/
+## Structure de l'application (sans framework)
+```
+src/
 ├── --tests--/  # tests
 │   ├── e2e/  # tests end-to-end
 │   ├── msw/  # mock des calls api
