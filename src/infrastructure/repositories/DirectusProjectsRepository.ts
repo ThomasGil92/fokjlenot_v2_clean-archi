@@ -31,4 +31,31 @@ export class DirectusProjectsRepository implements IProjectsRepository {
       throw new Error("cannot add to projects list") as Error;
     }
   }
+  async updateProjectList(updatedProject: Project) {
+    try {
+      const response = await axiosInstance.patch(
+        `/items/projects/${updatedProject.id}`,
+        updatedProject,
+      );
+      //return new User(response.data) ???
+
+      const returnedDatas: Project = response.data.data.updated_project;
+      return returnedDatas;
+    } catch (error) {
+      throw new Error("cannot update the project") as Error;
+    }
+  }
+  async removeFromProjectList(projectId: Project["id"]) {
+    try {
+      const response = await axiosInstance.delete(
+        `/items/projects/${projectId}`
+      );
+      //return new User(response.data) ???
+
+      const returnedDatas: string = response.data.data.removed_project_id;
+      return returnedDatas;
+    } catch (error) {
+      throw new Error("cannot update the project") as Error;
+    }
+  }
 }

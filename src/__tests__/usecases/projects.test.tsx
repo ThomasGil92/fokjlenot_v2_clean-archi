@@ -1,7 +1,11 @@
-import { setupStore } from "@/infrastructure/store";
 import { worker } from "../msw/browser";
 import { renderWithProviders } from "../test-utils";
-import { addProject, getProjects } from "@/domain/usecases/projects/projectsUseCase";
+import {
+  addProject,
+  getProjects,
+  removeProject,
+  updateProject,
+} from "@/domain/usecases/projects/projectsUseCase";
 import { waitFor } from "@testing-library/dom";
 import { Project, ProjectStatus } from "@/domain/entities/Project";
 
@@ -33,5 +37,38 @@ describe("projects usecases", () => {
     };
     addProject(newProject);
     await waitFor(() => expect(store.getState().projects.list).toHaveLength(2));
+
+    addProject({ ...newProject, id: "3", title: "Encore un autre projet" });
+    await waitFor(() => expect(store.getState().projects.list).toHaveLength(3));
+  });
+  test("should update a project with id", async () => {
+    const { store } = renderWithProviders();
+    const updatedProject: Project = {
+      id: "1",
+      title: "Nouveau projet modifié",
+      status: ProjectStatus.PROGRESS,
+      owner: "1",
+      collaborators: ["1"],
+    };
+    updateProject(updatedProject);
+    await waitFor(() =>
+      expect(store.getState().projects.list[0]).toStrictEqual({
+        id: "1",
+        title: "Nouveau projet modifié",
+        status: ProjectStatus.PROGRESS,
+        owner: "1",
+        collaborators: ["1"],
+      }),
+    );
+  });
+  test("should remove a project with id", async () => {
+    const { store } = renderWithProviders();
+    let projectId = "1";
+    expect(store.getState().projects.list).toHaveLength(3);
+    removeProject(projectId);
+    await waitFor(() => expect(store.getState().projects.list).toHaveLength(2));
+    projectId = "3";
+    removeProject(projectId);
+    await waitFor(() => expect(store.getState().projects.list).toHaveLength(1));
   });
 });

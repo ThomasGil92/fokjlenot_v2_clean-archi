@@ -1,5 +1,14 @@
 import { Project, ProjectStatus } from "@/domain/entities/Project";
 import { http, HttpResponse } from "msw";
+export let projects_list: Project[] = [
+  {
+    id: "1",
+    title: "Premier projet",
+    status: ProjectStatus.PENDING,
+    owner: "1",
+    collaborators: ["1"],
+  },
+];
 export const handlers = [
   //Intercept requests
   http.post(`/auth/users`, async (req) => {
@@ -17,7 +26,7 @@ export const handlers = [
       console.log(error);
     }
   }),
-  http.post(`/auth/login`, async (request) => {
+  http.post(`/auth/login`, async () => {
     try {
       return HttpResponse.json(
         {
@@ -81,6 +90,59 @@ export const handlers = [
         {
           data: {
             new_project: data,
+          },
+        },
+
+        { status: 201 },
+      );
+    } catch (error) {
+      console.log("cannot add project");
+      return HttpResponse.json(
+        {
+          error,
+        },
+        { status: 500 },
+      );
+    }
+  }),
+  http.patch("/items/projects/:id", async (req) => {
+    const { id } = req.params;
+    try {
+      const data = (await req.request.json()) as Project;
+      const updatedList = projects_list.map((project) =>
+        project.id === id ? data : project,
+      );
+      projects_list = [...updatedList];
+      return HttpResponse.json(
+        {
+          data: {
+            updated_project: data,
+          },
+        },
+
+        { status: 201 },
+      );
+    } catch (error) {
+      console.log("cannot add project");
+      return HttpResponse.json(
+        {
+          error,
+        },
+        { status: 500 },
+      );
+    }
+  }),
+  http.delete("/items/projects/:id", async (req) => {
+    const { id } = req.params;
+    try {
+     const updatedList = projects_list.filter((project) =>
+        project.id !== id 
+      );
+      projects_list = [...updatedList];
+      return HttpResponse.json(
+        {
+          data: {
+            removed_project_id: id,
           },
         },
 

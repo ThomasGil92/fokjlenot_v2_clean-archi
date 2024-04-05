@@ -3,6 +3,8 @@ import { store } from "@/infrastructure/store";
 import {
   addToProjectList,
   getProjectsList,
+  removeFromProjectList,
+  updateProjectList,
 } from "@/infrastructure/store/slices/projects/projectsSlices";
 
 export const getProjects = () => {
@@ -11,3 +13,9 @@ export const getProjects = () => {
 export const addProject = (newProject: Project) => {
   store.dispatch(addToProjectList(newProject));
 };
+export const updateProject=(updatedProject:Project)=>{
+store.dispatch(updateProjectList(updatedProject))
+}
+export const removeProject=(projectId:Project["id"])=>{
+store.dispatch(removeFromProjectList(projectId));
+}
