@@ -1,4 +1,4 @@
-src/
+```src/
 ├── --tests--/  # tests
 │   ├── e2e/  # tests end-to-end
 │   ├── msw/  # mock des calls api
@@ -21,3 +21,4 @@ src/
 │   │       ├── index.ts # combineReducer
 │   │       ├── ...
 |   |   ├── index.ts # init du store et custom hooks redux pour types (useSelector et useDispatch)
+```
