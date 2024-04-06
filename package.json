@@ -8,13 +8,14 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "test": "set VITE_ENABLE_MSW=true && vitest",
+    "test": "VITE_ENABLE_MSW=true vitest",
     "msw-init": "npx msw init ./public --save",
-    "dev-msw": "set VITE_ENABLE_MSW=true && vite"
+    "dev-msw": "VITE_ENABLE_MSW=true vite"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
     "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-navigation-menu": "^1.1.4",
     "@radix-ui/react-slot": "^1.0.2",
     "@reduxjs/toolkit": "^2.2.2",
     "axios": "^1.6.8",

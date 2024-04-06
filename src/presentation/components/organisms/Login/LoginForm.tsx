@@ -35,10 +35,10 @@ export function LoginForm() {
     },
   });
 
-  const handleSubmit = (values: z.infer<typeof formSchema>) => {
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     // e.preventDefault();
     const { email, password } = values;
-    login({ email, password });
+    await login({ email, password });
     navigate("/dashboard");
     form.reset();
   };

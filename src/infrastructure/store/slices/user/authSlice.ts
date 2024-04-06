@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { DirectusUserRepository } from "../../../repositories/DirectusUserRepository";
 
 interface AuthState {
@@ -24,18 +24,24 @@ export const loginUser = createAsyncThunk<
   { access_token: string; refresh_token: string },
   UserCredentials
 >("user/loginUser", async (userCredentials: UserCredentials) => {
-  
   const userRepository = new DirectusUserRepository();
-  const response=await userRepository.loginUser(userCredentials);
-  return response
+  const response = await userRepository.loginUser(userCredentials);
+  return response;
 });
+
+export const logOutUser=createAction("user/logOutUser")
 
 const authSlice = createSlice({
   name: "auth",
-  initialState,
-  reducers: {},
+  initialState: initialState satisfies AuthState as AuthState,
+  reducers: {
+    
+  },
   extraReducers: (builder) => {
-    builder
+    builder.addCase(logOutUser,(state)=>{
+      state.token = null;
+      state.isAuthenticated = false;
+    })
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
       })

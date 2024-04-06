@@ -1,4 +1,4 @@
-const SignUp=()=>{
+const SignUpPage=()=>{
     return<h1>SignUp</h1>
 }
-export default SignUp
+export default SignUpPage
