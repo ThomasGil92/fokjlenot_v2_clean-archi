@@ -16,7 +16,8 @@ const LoginFields: React.FC<LoginFieldsInterface> = ({ form }) => {
   return (
     <>
       <FormFieldZ
-        placeholder='Adresse email'
+        placeholder='Email address'
+        description_helper="example@gmail.com"
         label='Email:'
         type='email'
         form={form}
@@ -24,7 +25,7 @@ const LoginFields: React.FC<LoginFieldsInterface> = ({ form }) => {
         required
       />
       <FormFieldZ
-        placeholder='Mot de passe'
+        placeholder='Password'
         label='Mot de passe:'
         type='password'
         form={form}

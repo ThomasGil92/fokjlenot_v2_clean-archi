@@ -23,6 +23,7 @@ interface FormFieldInterface {
     unknown,
     undefined
   >;
+  description_helper?:string;
 }
 
 const FormFieldZ = ({
@@ -31,6 +32,7 @@ const FormFieldZ = ({
   placeholder,
   label,
   form,
+  description_helper,
 }: FormFieldInterface) => {
   return (
     <>
@@ -38,7 +40,7 @@ const FormFieldZ = ({
         name={name}
         control={form.control}
         render={({ field }) => (
-          <FormItem>
+          <FormItem className='mb-5'>
             <FormLabel htmlFor={`#${name}`}>{label}</FormLabel>
             <FormControl>
               <Input
@@ -49,7 +51,9 @@ const FormFieldZ = ({
                 data-testid={name}
               />
             </FormControl>
-            <FormDescription>This is your public display name.</FormDescription>
+            {description_helper && (
+              <FormDescription>{description_helper}</FormDescription>
+            )}
             <FormMessage />
           </FormItem>
         )}

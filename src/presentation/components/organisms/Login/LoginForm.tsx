@@ -45,7 +45,6 @@ export function LoginForm() {
 
   return (
     <Card className='w-1/2 h-min mx-auto'>
-      <p>blabla</p>
       <CardHeader>
         <CardTitle>Connexion</CardTitle>
         <CardDescription>Connect to your account</CardDescription>

@@ -20,6 +20,17 @@ export class DirectusProjectsRepository implements IProjectsRepository {
       throw new Error("cannot find projects") as Error;
     }
   }
+  async getProjectById(projectId: Project["id"]) {
+    try {
+      const response = await axiosInstance.get(`/items/project/${projectId}`);
+      //return new User(response.data) ???
+      console.log(response)
+      const returnedDatas = response.data.data.project;
+      return returnedDatas;
+    } catch (error) {
+      throw new Error("cannot find projects") as Error;
+    }
+  }
   async addToProjectsList(newProject: Project) {
     try {
       const response = await axiosInstance.post(`/items/projects`, newProject);
@@ -48,7 +59,7 @@ export class DirectusProjectsRepository implements IProjectsRepository {
   async removeFromProjectList(projectId: Project["id"]) {
     try {
       const response = await axiosInstance.delete(
-        `/items/projects/${projectId}`
+        `/items/projects/${projectId}`,
       );
       //return new User(response.data) ???
 

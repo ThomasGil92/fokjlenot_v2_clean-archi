@@ -1,4 +1,4 @@
-import { worker } from "@/__tests__/msw/browser";
+import { worker } from "@/__tests__/msw/server";
 import { renderWithProviders } from "../test-utils";
 import "@testing-library/jest-dom";
 import { fireEvent, waitFor } from "@testing-library/dom";
@@ -48,5 +48,6 @@ describe("login: should connect when all login fields are completed and when the
       expect(router.state.location.pathname).toBe("/dashboard");
     });
   });
+  
 });
 

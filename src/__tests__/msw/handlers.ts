@@ -8,6 +8,13 @@ export let projects_list: Project[] = [
     owner: "1",
     collaborators: ["1"],
   },
+  {
+    id: "2",
+    title: "Deuxième projet",
+    status: ProjectStatus.PENDING,
+    owner: "1",
+    collaborators: ["1"],
+  },
 ];
 export const handlers = [
   //Intercept requests
@@ -53,15 +60,6 @@ export const handlers = [
     // const requestBody = await request.json();
   }),
   http.get("/items/projects", async () => {
-    const projects_list: Project[] = [
-      {
-        id: "1",
-        title: "Première tâche",
-        status: ProjectStatus.PENDING,
-        owner: "1",
-        collaborators: ["1"],
-      },
-    ];
     try {
       return HttpResponse.json(
         {
@@ -75,6 +73,30 @@ export const handlers = [
       );
     } catch (error) {
       console.log("cannot find projects");
+      return HttpResponse.json(
+        {
+          error,
+        },
+        { status: 500 },
+      );
+    }
+  }),
+  http.get("/items/project/:id", async (req) => {
+    const { id } = req.params;
+    const project = projects_list.find((project) => project.id == id);
+    try {
+      return HttpResponse.json(
+          {
+            data: {
+              project,
+              createdAt: new Date().toLocaleString,
+            },
+          },
+
+          { status: 201 },
+        );
+    } catch (error) {
+      console.log("cannot find project");
       return HttpResponse.json(
         {
           error,
@@ -123,7 +145,7 @@ export const handlers = [
         { status: 201 },
       );
     } catch (error) {
-      console.log("cannot add project");
+      console.log("cannot get project");
       return HttpResponse.json(
         {
           error,
@@ -135,9 +157,7 @@ export const handlers = [
   http.delete("/items/projects/:id", async (req) => {
     const { id } = req.params;
     try {
-     const updatedList = projects_list.filter((project) =>
-        project.id !== id 
-      );
+      const updatedList = projects_list.filter((project) => project.id !== id);
       projects_list = [...updatedList];
       return HttpResponse.json(
         {

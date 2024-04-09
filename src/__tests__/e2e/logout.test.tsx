@@ -1,11 +1,8 @@
-import { worker } from "@/__tests__/msw/browser";
+import { worker } from "@/__tests__/msw/server";
 import { renderWithProviders } from "../test-utils";
 import "@testing-library/jest-dom";
 import { fireEvent, waitFor } from "@testing-library/dom";
 import { TokenRepositoryLocalStorage } from "@/infrastructure/auth/TokenRepositoryLocalStorage";
-import { login } from "@/domain/usecases/user/userUseCase";
-import { act } from "react-dom/test-utils";
-//import { LoginForm } from "@/presentation/components/organisms/Login/LoginForm";
 
 // Enable API mocking before tests.
 beforeAll(() => worker.listen());
