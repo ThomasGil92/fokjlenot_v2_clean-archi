@@ -11,7 +11,7 @@ import { UseFormReturn } from "react-hook-form";
 interface FormFieldInterface {
   type: string;
 
-  name: "email" | "password";
+  name: string;
   required: boolean;
   label: string;
   placeholder: string;

@@ -1,5 +1,5 @@
 import LoginFormFields from "../../molecules/Login/LoginFields";
-import SubmitButton from "../../atoms/SubmitButton";
+import SubmitButton from "../../atoms/shared/SubmitButton";
 import {
   Card,
   CardContent,
@@ -53,7 +53,7 @@ export function LoginForm() {
         <Form {...form}>
           <form data-testid="loginForm" onSubmit={form.handleSubmit(handleSubmit)} className=''>
             <LoginFormFields form={form} />
-            <SubmitButton text='Se connecter' />
+            <SubmitButton text='Se connecter' testId="loginButton" />
           </form>
         </Form>
       </CardContent>

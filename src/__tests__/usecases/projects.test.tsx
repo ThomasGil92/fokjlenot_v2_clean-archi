@@ -10,6 +10,9 @@ import { waitFor } from "@testing-library/dom";
 import { Project, ProjectStatus } from "@/domain/entities/Project";
 import { TokenRepositoryLocalStorage } from "@/infrastructure/auth/TokenRepositoryLocalStorage";
 
+const FAKE_TOKEN:string="token.1234"
+
+
 // Enable API mocking before tests.
 beforeAll(() => worker.listen());
 
@@ -23,7 +26,7 @@ describe("projects usecases", () => {
   test("should fetch projects list and get it in the state", async () => {
     const { store } = renderWithProviders();
 
-    getProjects();
+    getProjects(FAKE_TOKEN);
 
     await waitFor(() => {
       expect(store.getState().projects.list).not.toBeNull();
@@ -31,11 +34,10 @@ describe("projects usecases", () => {
     });
   });
   test("should get a project by id", async () => {
-    TokenRepositoryLocalStorage.setToken("token123");
+    TokenRepositoryLocalStorage.setToken(FAKE_TOKEN);
     const { store } = renderWithProviders("/project/2");
 
     await waitFor(() => {
-      console.log(store.getState().projects);
       expect(store.getState().projects.selected).not.toBeNull();
     });
   });
@@ -48,10 +50,10 @@ describe("projects usecases", () => {
       owner: "1",
       collaborators: ["1"],
     };
-    addProject(newProject);
+    addProject(newProject,FAKE_TOKEN);
     await waitFor(() => expect(store.getState().projects.list).toHaveLength(2));
 
-    addProject({ ...newProject, id: "3", title: "Encore un autre projet" });
+    addProject({ ...newProject,id: "3", title: "Encore un autre projet" },FAKE_TOKEN);
     await waitFor(() => expect(store.getState().projects.list).toHaveLength(3));
   });
   test("should update a project with id", async () => {
@@ -63,7 +65,7 @@ describe("projects usecases", () => {
       owner: "1",
       collaborators: ["1"],
     };
-    updateProject(updatedProject);
+    updateProject(updatedProject,FAKE_TOKEN);
     await waitFor(() =>
       expect(store.getState().projects.list[0]).toStrictEqual({
         id: "1",
@@ -78,10 +80,10 @@ describe("projects usecases", () => {
     const { store } = renderWithProviders();
     let projectId = "1";
     expect(store.getState().projects.list).toHaveLength(4);
-    removeProject(projectId);
+    removeProject(projectId,FAKE_TOKEN);
     await waitFor(() => expect(store.getState().projects.list).toHaveLength(3));
     projectId = "3";
-    removeProject(projectId);
+    removeProject(projectId,FAKE_TOKEN);
     await waitFor(() => expect(store.getState().projects.list).toHaveLength(2));
   });
 });

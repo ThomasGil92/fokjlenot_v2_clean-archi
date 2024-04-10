@@ -1,5 +1,5 @@
 import { UseFormReturn } from "react-hook-form";
-import FormFieldZ from "../../atoms/FormField";
+import FormFieldZ from "../../atoms/shared/FormField";
 
 interface LoginFieldsInterface {
   form: UseFormReturn<

@@ -2,6 +2,7 @@ import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { DirectusProjectsRepository } from "../../../repositories/DirectusProjectsRepository";
 import { Project } from "@/domain/entities/Project";
+import { AuthState } from "../user/authSlice";
 
 interface ProjectsState {
   list: Project[];
@@ -15,43 +16,46 @@ const initialState: ProjectsState = {
   selected: null,
 };
 
-export const getProjectsList = createAsyncThunk<Project[]>(
+export const getProjectsList = createAsyncThunk<Project[], AuthState["token"]>(
   "projects/getProjects",
-  async () => {
+  async (token) => {
     const projectRepository = new DirectusProjectsRepository();
-    const response = await projectRepository.getProjectsList();
+    const response = await projectRepository.getProjectsList(token);
     return response;
   },
 );
-export const addToProjectList = createAsyncThunk<Project, Project>(
+export const addToProjectList = createAsyncThunk<Project, {newProject:Project,token: AuthState["token"]}>(
   "projects/addProject",
-  async (newProject) => {
+  async ({newProject,token}) => {
     const projectRepository = new DirectusProjectsRepository();
-    const response = await projectRepository.addToProjectsList(newProject);
+    const response = await projectRepository.addToProjectsList(newProject,token);
     return response;
   },
 );
-export const updateProjectList = createAsyncThunk<Project, Project>(
+export const updateProjectList = createAsyncThunk<Project, {updatedProject:Project,token:AuthState["token"]}>(
   "projects/updateProject",
-  async (updatedProject) => {
+  async ({updatedProject,token}) => {
     const projectRepository = new DirectusProjectsRepository();
-    const response = await projectRepository.updateProjectList(updatedProject);
+    const response = await projectRepository.updateProjectList(updatedProject,token);
     return response;
   },
 );
-export const removeFromProjectList = createAsyncThunk<Project["id"], string>(
-  "projects/removeProject",
-  async (projectId) => {
-    const projectRepository = new DirectusProjectsRepository();
-    const response = await projectRepository.removeFromProjectList(projectId);
-    return response;
-  },
-);
-export const getSelectedProjectById = createAsyncThunk<Project, Project["id"]>(
+export const removeFromProjectList = createAsyncThunk<
+  Project["id"],
+  { projectId: string; token: AuthState["token"] }
+>("projects/removeProject", async ({ projectId, token }) => {
+  const projectRepository = new DirectusProjectsRepository();
+  const response = await projectRepository.removeFromProjectList(
+    projectId,
+    token,
+  );
+  return response;
+});
+export const getSelectedProjectById = createAsyncThunk<Project, {projectId:Project["id"],token: AuthState["token"]}>(
   "projects/getProjectById",
-  async (projectId) => {
+  async ({projectId,token}) => {
     const projectRepository = new DirectusProjectsRepository();
-    const response = await projectRepository.getProjectById(projectId);
+    const response = await projectRepository.getProjectById(projectId,token);
 
     return response;
   },
@@ -66,7 +70,6 @@ const projectsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(setSelectedProject, (state, action) => {
-        console.log(action.payload)
         state.selected = action.payload;
       })
       .addCase(getSelectedProjectById.pending, (state, action) => {

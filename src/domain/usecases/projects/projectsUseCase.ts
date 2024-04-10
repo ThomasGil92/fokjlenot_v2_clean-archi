@@ -8,22 +8,28 @@ import {
   setSelectedProject,
   updateProjectList,
 } from "@/infrastructure/store/slices/projects/projectsSlices";
+import { AuthState } from "@/infrastructure/store/slices/user/authSlice";
 
-export const getProjects = () => {
-  store.dispatch(getProjectsList());
+export const getProjects = (token: AuthState["token"]) => {
+  store.dispatch(getProjectsList(token));
 };
-export const getProjectById = (selectedProjectId:Project["id"]) => {
-  store.dispatch(getSelectedProjectById(selectedProjectId));
+export const getProjectById = (
+  selectedProjectId: Project["id"],
+  token: AuthState["token"],
+) => {
+  store.dispatch(
+    getSelectedProjectById({ projectId: selectedProjectId, token }),
+  );
 };
 export const setSelectedProjectById = (selectedProject: Project) => {
   store.dispatch(setSelectedProject(selectedProject));
 };
-export const addProject = (newProject: Project) => {
-  store.dispatch(addToProjectList(newProject));
+export const addProject = (newProject: Project,token:AuthState["token"]) => {
+  store.dispatch(addToProjectList({newProject,token}));
 };
-export const updateProject=(updatedProject:Project)=>{
-store.dispatch(updateProjectList(updatedProject))
-}
-export const removeProject=(projectId:Project["id"])=>{
-store.dispatch(removeFromProjectList(projectId));
-}
+export const updateProject = (updatedProject: Project, token: AuthState["token"]) => {
+  store.dispatch(updateProjectList({ updatedProject, token }));
+};
+export const removeProject = (projectId: Project["id"], token: AuthState["token"]) => {
+  store.dispatch(removeFromProjectList({projectId,token}));
+};

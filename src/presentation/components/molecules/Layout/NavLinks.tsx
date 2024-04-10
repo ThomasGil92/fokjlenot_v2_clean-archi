@@ -10,12 +10,18 @@ const NavLinks = () => {
     <NavigationMenuList>
       {" "}
       {isAuth ? (
+        <><ActionButton
+          
+          textContent='Projects'
+          testId='toProjectsButton'
+          to='/projects'
+        />
         <ActionButton
           action={logOut}
           textContent='Log Out'
           testId='logoutButton'
           to='/'
-        />
+        /></>
       ) : (
         <>
           <NavigationButton path='/signup' textContent='Sign Up' />

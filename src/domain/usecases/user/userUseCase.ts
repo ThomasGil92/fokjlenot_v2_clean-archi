@@ -1,6 +1,11 @@
 import { TokenRepositoryLocalStorage } from "@/infrastructure/auth/TokenRepositoryLocalStorage";
 import { store } from "@/infrastructure/store";
-import { loginUser,logOutUser } from "@/infrastructure/store/slices/user/authSlice";
+import {
+  AuthState,
+  loginUser,
+  logOutUser,
+  setTokenInStore,
+} from "@/infrastructure/store/slices/user/authSlice";
 import { createUser } from "@/infrastructure/store/slices/user/signUpSlice";
 
 interface UserCredentials {
@@ -18,9 +23,10 @@ export const signUp = async (
 ): Promise<void> => {
   await store.dispatch(createUser(userCredentials));
 };
-export const logOut =  (): void => {
-   store.dispatch(logOutUser());
-   TokenRepositoryLocalStorage.removeToken();
+export const logOut = (): void => {
+  store.dispatch(logOutUser());
+  TokenRepositoryLocalStorage.removeToken();
 };
-
-
+export const setTokenToStore = (token: AuthState["token"]) => {
+  store.dispatch(setTokenInStore(token));
+};

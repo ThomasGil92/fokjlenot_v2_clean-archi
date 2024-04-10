@@ -12,11 +12,12 @@ interface Args extends ActionFunctionArgs {
 
 export const getProjectById = async ({ params }: Args) => {
   try {
-    const response = await axiosInstance.get(`/items/project/${params.id}`);
-    
+    const response = await axiosInstance.get(`/items/project/${params.id}`, {
+      headers: { "Authorization": "Bearertoken.1234" },
+    });
     setSelectedProjectById(response.data.data.project);
     return response;
   } catch (error) {
-    throw new Error("impossible de récupérer le projet") as Error
+    throw new Error("impossible de récupérer le projet") as Error;
   }
 };

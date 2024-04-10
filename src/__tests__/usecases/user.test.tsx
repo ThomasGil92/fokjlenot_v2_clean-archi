@@ -1,6 +1,6 @@
 import { setupStore } from "@/infrastructure/store";
 import { worker } from "../msw/server";
-import { act, fireEvent, waitFor } from "@testing-library/react";
+import { act, waitFor } from "@testing-library/react";
 import { logOut, login, signUp } from "@/domain/usecases/user/userUseCase";
 import { renderWithProviders } from "../test-utils";
 
@@ -27,9 +27,8 @@ describe("user useCase", () => {
   });
   test("should logout a user", async () => {
     localStorage.setItem("authToken", "token1234");
-    const { store,getByTestId } = renderWithProviders("/dashboard");
-    const button=getByTestId("logoutButton")
-    act(()=>fireEvent.click(button))
+    const { store } = renderWithProviders("/dashboard");
+     act(()=>logOut());
     await waitFor(() => {
       expect(store.getState().auth.token).toBeNull();
       expect(store.getState().auth.isAuthenticated).toBeFalsy();

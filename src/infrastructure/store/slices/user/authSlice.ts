@@ -1,7 +1,7 @@
 import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { DirectusUserRepository } from "../../../repositories/DirectusUserRepository";
 
-interface AuthState {
+export interface AuthState {
   isAuthenticated: boolean;
   token: string | null;
   loading: boolean;
@@ -30,6 +30,7 @@ export const loginUser = createAsyncThunk<
 });
 
 export const logOutUser=createAction("user/logOutUser")
+export const setTokenInStore = createAction<AuthState["token"]>("user/setTokenInStore");
 
 const authSlice = createSlice({
   name: "auth",
@@ -38,10 +39,15 @@ const authSlice = createSlice({
     
   },
   extraReducers: (builder) => {
-    builder.addCase(logOutUser,(state)=>{
-      state.token = null;
-      state.isAuthenticated = false;
-    })
+    builder
+      .addCase(setTokenInStore, (state,action) => {
+        state.token = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(logOutUser, (state) => {
+        state.token = null;
+        state.isAuthenticated = false;
+      })
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
       })

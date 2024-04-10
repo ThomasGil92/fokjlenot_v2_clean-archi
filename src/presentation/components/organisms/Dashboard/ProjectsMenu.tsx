@@ -7,9 +7,9 @@ import { useAppSelector } from "@/infrastructure/store";
 
 const ProjectsMenu = () => {
   const { list: projects, loading } = useAppSelector((state) => state.projects);
-
+const token=useAppSelector(state=>state.auth.token)
   useEffect(() => {
-    getProjects();
+    getProjects(token);
   }, []);
 
   return (
