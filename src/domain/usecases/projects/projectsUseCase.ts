@@ -10,8 +10,9 @@ import {
 } from "@/infrastructure/store/slices/projects/projectsSlices";
 import { AuthState } from "@/infrastructure/store/slices/user/authSlice";
 
-export const getProjects = (token: AuthState["token"]) => {
-  store.dispatch(getProjectsList(token));
+export const getProjects = async (token: AuthState["token"]):Promise<void> => {
+  
+  await store.dispatch(getProjectsList(token));
 };
 export const getProjectById = (
   selectedProjectId: Project["id"],
@@ -24,8 +25,8 @@ export const getProjectById = (
 export const setSelectedProjectById = (selectedProject: Project) => {
   store.dispatch(setSelectedProject(selectedProject));
 };
-export const addProject = (newProject: Project,token:AuthState["token"]) => {
-  store.dispatch(addToProjectList({newProject,token}));
+export const addProject = async(newProject: Project,token:AuthState["token"]):Promise<void> => {
+  await store.dispatch(addToProjectList({newProject,token}));
 };
 export const updateProject = (updatedProject: Project, token: AuthState["token"]) => {
   store.dispatch(updateProjectList({ updatedProject, token }));

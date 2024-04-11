@@ -17,8 +17,8 @@ describe("login: should connect when all login fields are completed and when the
   test("should get error if none of the fiels are filled", async () => {
     const { getByTestId, getByText } = renderWithProviders("/login");
 
-    const email = getByTestId("email");
-    const password = getByTestId("password");
+    const email = getByTestId("emailInput");
+    const password = getByTestId("passwordInput");
     const button = getByTestId("loginButton");
     fireEvent.change(email, { target: { value: "" } });
     fireEvent.change(password, { target: { value: "" } });
@@ -32,9 +32,9 @@ describe("login: should connect when all login fields are completed and when the
   });
   test("should save access_token in the store", async () => {
     const { getByTestId, store, router } = renderWithProviders("/login");
-    TokenRepositoryLocalStorage.setToken("token1234");
-    const email = getByTestId("email");
-    const password = getByTestId("password");
+    TokenRepositoryLocalStorage.setToken("token.1234");
+    const email = getByTestId("emailInput");
+    const password = getByTestId("passwordInput");
     const button = getByTestId("loginButton");
 
     fireEvent.change(email, { target: { value: "fakeemail@gmail.com" } });

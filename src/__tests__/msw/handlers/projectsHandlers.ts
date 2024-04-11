@@ -17,7 +17,7 @@ export let projects_list: Project[] = [
   {
     id: "2",
     title: "Deuxième projet",
-    status: ProjectStatus.PENDING,
+    status: ProjectStatus.DONE,
     owner: "1",
     collaborators: ["1"],
   },

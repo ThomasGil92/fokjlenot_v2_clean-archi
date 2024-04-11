@@ -1,3 +1,4 @@
+import ProjectStatusSection from "@/presentation/components/organisms/Dashboard/ProjectStatusSection";
 import ProjectsMenu from "@/presentation/components/organisms/Dashboard/ProjectsMenu";
 
 const DashboardPage = () => {
@@ -8,7 +9,9 @@ const DashboardPage = () => {
       </header>
       <main className='px-5 grid md:grid-cols-12 gap-4'>
         <ProjectsMenu />
-        <p className="col-span-10">Other stuffs</p>
+        <div className='col-span-10 grid md:grid-cols-12 gap-4'>
+          <ProjectStatusSection />
+        </div>
       </main>
     </>
   );

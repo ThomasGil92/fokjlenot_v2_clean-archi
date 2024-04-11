@@ -7,38 +7,31 @@ import {
   FormMessage,
 } from "@/presentation/shadcn/components/ui/form";
 import { Input } from "@/presentation/shadcn/components/ui/input";
-import { UseFormReturn } from "react-hook-form";
+import { Control } from "react-hook-form";
 interface FormFieldInterface {
   type: string;
-
+dataId:string;
   name: string;
   required: boolean;
   label: string;
   placeholder: string;
-  form: UseFormReturn<
-    {
-      email: string;
-      password: string;
-    },
-    unknown,
-    undefined
-  >;
+  control:Control<any>
   description_helper?:string;
 }
 
 const FormFieldZ = ({
   type,
-  name,
+  name,dataId,
   placeholder,
   label,
-  form,
+  control,
   description_helper,
 }: FormFieldInterface) => {
   return (
     <>
       <FormField
         name={name}
-        control={form.control}
+        control={control}
         render={({ field }) => (
           <FormItem className='mb-5'>
             <FormLabel htmlFor={`#${name}`}>{label}</FormLabel>
@@ -48,7 +41,7 @@ const FormFieldZ = ({
                 type={type}
                 placeholder={placeholder}
                 id={name}
-                data-testid={name}
+                data-testid={dataId}
               />
             </FormControl>
             {description_helper && (

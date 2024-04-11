@@ -20,7 +20,8 @@ const LoginFields: React.FC<LoginFieldsInterface> = ({ form }) => {
         description_helper="example@gmail.com"
         label='Email:'
         type='email'
-        form={form}
+        dataId="emailInput"
+        control={form.control}
         name='email'
         required
       />
@@ -28,7 +29,8 @@ const LoginFields: React.FC<LoginFieldsInterface> = ({ form }) => {
         placeholder='Password'
         label='Mot de passe:'
         type='password'
-        form={form}
+        dataId="passwordInput"
+        control={form.control}
         name='password'
         required
       />

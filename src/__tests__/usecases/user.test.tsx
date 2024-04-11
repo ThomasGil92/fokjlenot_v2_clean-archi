@@ -26,7 +26,7 @@ describe("user useCase", () => {
       );
   });
   test("should logout a user", async () => {
-    localStorage.setItem("authToken", "token1234");
+    localStorage.setItem("authToken", "token.1234");
     const { store } = renderWithProviders("/dashboard");
      act(()=>logOut());
     await waitFor(() => {

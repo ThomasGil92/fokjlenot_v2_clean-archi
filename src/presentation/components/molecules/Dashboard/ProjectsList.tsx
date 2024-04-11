@@ -7,7 +7,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
 } from "@/presentation/shadcn/components/ui/dialog";
 import { Button } from "@/presentation/shadcn/components/ui/button";
 import { z } from "zod";
@@ -17,6 +16,7 @@ import { addProject } from "@/domain/usecases/projects/projectsUseCase";
 import { useAppSelector } from "@/infrastructure/store";
 import SubmitButton from "../../atoms/shared/SubmitButton";
 import AddProjectFormFields from "./AddProjectFormFields";
+import { Form } from "@/presentation/shadcn/components/ui/form";
 
 interface ProjectListProp {
   projects: Project[];
@@ -60,10 +60,11 @@ const ProjectsList: React.FC<ProjectListProp> = ({ projects }) => {
         <DialogTrigger asChild>
           <Button data-testid='addButton'>New project</Button>
         </DialogTrigger>
-        <DialogContent data-testid='addProjectDialog'>
+        <DialogContent data-testid='addProjectDialog' className="w-6/12">
           <DialogHeader>
             <DialogTitle>Create a new Project</DialogTitle>
           </DialogHeader>
+          <Form {...form}>
           <form
             data-testid='addProjectForm'
             onSubmit={form.handleSubmit(handleSubmit)}
@@ -71,7 +72,7 @@ const ProjectsList: React.FC<ProjectListProp> = ({ projects }) => {
           >
             <AddProjectFormFields form={form} />
             <SubmitButton text='Save' testId="addProjectButton" />
-          </form>
+          </form></Form>
         </DialogContent>
       </Dialog>
 

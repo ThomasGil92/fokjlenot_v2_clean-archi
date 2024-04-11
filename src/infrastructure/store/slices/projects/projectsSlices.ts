@@ -18,28 +18,35 @@ const initialState: ProjectsState = {
 
 export const getProjectsList = createAsyncThunk<Project[], AuthState["token"]>(
   "projects/getProjects",
-  async (token) => {
-    const projectRepository = new DirectusProjectsRepository();
-    const response = await projectRepository.getProjectsList(token);
-    return response;
+  async (token, { rejectWithValue }) => {
+    try {
+      const projectRepository = new DirectusProjectsRepository();
+      const response = await projectRepository.getProjectsList(token);
+      return response;
+    } catch (error:any) {
+      return rejectWithValue({ errorMessage: error.message, error });
+    }
   },
 );
-export const addToProjectList = createAsyncThunk<Project, {newProject:Project,token: AuthState["token"]}>(
-  "projects/addProject",
-  async ({newProject,token}) => {
-    const projectRepository = new DirectusProjectsRepository();
-    const response = await projectRepository.addToProjectsList(newProject,token);
-    return response;
-  },
-);
-export const updateProjectList = createAsyncThunk<Project, {updatedProject:Project,token:AuthState["token"]}>(
-  "projects/updateProject",
-  async ({updatedProject,token}) => {
-    const projectRepository = new DirectusProjectsRepository();
-    const response = await projectRepository.updateProjectList(updatedProject,token);
-    return response;
-  },
-);
+export const addToProjectList = createAsyncThunk<
+  Project,
+  { newProject: Project; token: AuthState["token"] }
+>("projects/addProject", async ({ newProject, token }) => {
+  const projectRepository = new DirectusProjectsRepository();
+  const response = await projectRepository.addToProjectsList(newProject, token);
+  return response;
+});
+export const updateProjectList = createAsyncThunk<
+  Project,
+  { updatedProject: Project; token: AuthState["token"] }
+>("projects/updateProject", async ({ updatedProject, token }) => {
+  const projectRepository = new DirectusProjectsRepository();
+  const response = await projectRepository.updateProjectList(
+    updatedProject,
+    token,
+  );
+  return response;
+});
 export const removeFromProjectList = createAsyncThunk<
   Project["id"],
   { projectId: string; token: AuthState["token"] }
@@ -51,15 +58,15 @@ export const removeFromProjectList = createAsyncThunk<
   );
   return response;
 });
-export const getSelectedProjectById = createAsyncThunk<Project, {projectId:Project["id"],token: AuthState["token"]}>(
-  "projects/getProjectById",
-  async ({projectId,token}) => {
-    const projectRepository = new DirectusProjectsRepository();
-    const response = await projectRepository.getProjectById(projectId,token);
+export const getSelectedProjectById = createAsyncThunk<
+  Project,
+  { projectId: Project["id"]; token: AuthState["token"] }
+>("projects/getProjectById", async ({ projectId, token }) => {
+  const projectRepository = new DirectusProjectsRepository();
+  const response = await projectRepository.getProjectById(projectId, token);
 
-    return response;
-  },
-);
+  return response;
+});
 
 export const setSelectedProject = createAction<Project>("project/setProject");
 
@@ -72,14 +79,14 @@ const projectsSlice = createSlice({
       .addCase(setSelectedProject, (state, action) => {
         state.selected = action.payload;
       })
-      .addCase(getSelectedProjectById.pending, (state, action) => {
+      .addCase(getSelectedProjectById.pending, (state) => {
         state.loading = true;
       })
       .addCase(getSelectedProjectById.fulfilled, (state, action) => {
         state.selected = action.payload;
         state.loading = false;
       })
-      .addCase(getSelectedProjectById.rejected, (state, action) => {
+      .addCase(getSelectedProjectById.rejected, (state) => {
         state.loading = false;
       })
       .addCase(getProjectsList.pending, (state) => {

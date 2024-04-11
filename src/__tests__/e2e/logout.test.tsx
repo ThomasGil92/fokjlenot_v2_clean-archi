@@ -16,9 +16,9 @@ afterAll(() => worker.close());
 describe("logout: should remove the token from localStorage and from redux", () => {
   test("should remove the authToken from localStorage and from redux", async () => {
     const { getByTestId, store, router } = renderWithProviders("/login");
-    TokenRepositoryLocalStorage.setToken("token1234");
-    const email = getByTestId("email");
-    const password = getByTestId("password");
+    TokenRepositoryLocalStorage.setToken("token.1234");
+    const email = getByTestId("emailInput");
+    const password = getByTestId("passwordInput");
     const button = getByTestId("loginButton");
 
     fireEvent.change(email, { target: { value: "fakeemail@gmail.com" } });
